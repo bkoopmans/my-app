@@ -1,0 +1,33 @@
+.view {
+    .page-container {
+        background-color: white;
+        margin: 15px 0;
+        padding: 10px;
+        border: #666666 solid 1px;
+    }
+
+    .header {
+        .title {
+            font-size: 24px;
+            color: steelblue;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+    }
+
+    .technical {    
+        display: inline-block;
+        width: 240px;
+        background-color: rgb(170, 214, 250);
+    }
+
+    .work-history {
+        vertical-align: top;
+        display: inline-block;
+       
+        margin-left: 10px;
+
+    }
+
+}

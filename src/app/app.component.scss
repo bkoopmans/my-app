@@ -1,0 +1,69 @@
+.app-component {
+    background-color: #a7a7a7;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    a {
+        text-decoration: none;
+    }
+
+    .app-header {
+        background-color: #d66100;
+        padding-bottom: 24px;
+        .container {
+            padding: 0;
+        }
+        .name {
+            color: #ffffff;
+            font-size: 32px;
+            margin-top: 24px;
+        }
+        .links {
+            a {
+                color: white;
+                &:hover {
+                    color: steelblue;
+                }
+            }
+            
+            text-align: right;
+            
+            span {
+                background-color: #a7a7a7;
+                padding: 12px;
+                border-radius: 2px;
+                font-size: 16px;
+                margin-bottom: 12px;
+                margin-left: 8px;
+            }
+        }
+    }
+
+    .content {
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: auto;
+
+        .container {
+            background-color: #c9c9c9;
+            min-height: 400px;
+        }
+    }
+
+    .app-footer {
+        background-color: #151583;
+        height: 72px;
+        .links {
+            padding-top: 24px;
+            text-align: center;
+            a {
+                color: #ffffff;
+                padding: 0 12px;
+                &:not(:last-child) {
+                    border-right: #ffffff solid 1px;
+                }
+            }
+        }
+    }
+}
