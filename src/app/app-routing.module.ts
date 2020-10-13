@@ -13,9 +13,6 @@ const routes: Routes = [
   },
   {
     path:'ifAdventure', component: IfHomeComponent
-  },
-  { 
-    path:'**', redirectTo: ''
   }
 ];
 
