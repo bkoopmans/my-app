@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var require: any
 const CosmosClient = require("@azure/cosmos").CosmosClient;
 
 @Component({
