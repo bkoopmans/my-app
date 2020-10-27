@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+const CosmosClient = require("@azure/cosmos").CosmosClient;
 
 @Component({
   selector: 'app-dive',
@@ -8,59 +7,126 @@ import { HeroService } from './hero.service';
   styleUrls: ['./dive.component.scss']
 })
 export class DiveComponent implements OnInit {
-  addingHero = false;
-  heroes: any = [];
-  selectedHero: Hero;
+  config: any = {
+    endpoint: "https://my-app-db.documents.azure.com:443/",
+    key: "IeB85Lz5EzFchGyG7izHzn1sv6jRsVCfBZWfDFSfXO71lV9shGDeHVePyrRpDRkng891Ba4aRjRw3rk2uXdlFw==",
+    databaseId: "Dives",
+    containerId: "MyCollection",
+    partitionKey: { kind: "Hash", paths: ["/location"] }
+  };
 
-  constructor(private heroService: HeroService) {}
+  client: any;
+  database: any;
+  container: any;
 
-  ngOnInit() {
-   this.getHeroes();
+  newItem = {
+    id: "000005",
+    location: "Austrailia",
+    duration: "23:15",
+    videoId: "3"
+  };
+
+  constructor() {}
+
+  async ngOnInit() {
+    const endpoint = this.config.endpoint;
+    const key = this.config.key;
+    this.client = new CosmosClient({endpoint, key });
+
+    this.database = this.client.database(this.config.databaseId);
+    this.container = this.database.container(this.config.containerId);
+
+    // Make sure Tasks database is already setup. If not, create it.
+    await this.createDB(this.client, this.config.databaseId, this.config.containerId);
   }
 
-  cancel() {
-    this.addingHero = false;
-    this.selectedHero = null;
-  }
-
-  deleteHero(hero: Hero) {
-    this.heroService.deleteHero(hero).subscribe(res => {
-      this.heroes = this.heroes.filter(h => h !== hero);
-      if (this.selectedHero === hero) {
-        this.selectedHero = null;
-      }
+  async createDB(client: any, databaseId: any, containerId: any) {
+    const partitionKey = this.config.partitionKey;
+    const { database } = await client.databases.createIfNotExists({
+      id: databaseId
     });
+    console.log(`Created database:\n${database.id}\n`);
+    const { container } = await client
+    .database(databaseId)
+    .containers.createIfNotExists(
+      { id: containerId, partitionKey },
+      { offerThroughput: 400 }
+    );
+
+    console.log(`Created container:\n${container.id}\n`);
   }
 
-  getHeroes() {
-    return this.heroService.getHeroes().subscribe(heroes => {
-      this.heroes = heroes;
+  async get() {
+    // <QueryItems>
+    console.log(`Querying container: Items`);
+
+    // query to return all items
+    const querySpec = {
+    query: "SELECT * from c"
+    };
+
+    // read all items in the Items container
+    const { resources: items } = await this.container.items
+    .query(querySpec)
+    .fetchAll();
+
+    items.forEach(item => {
+    console.log(`${item.id} - ${item.location}`);
     });
+    // </QueryItems>
   }
 
-  enableAddMode() {
-    this.addingHero = true;
-    this.selectedHero = new Hero();
+  async create() {
+    // <CreateItem>
+    /** Create new item
+     * newItem is defined at the top of this file
+     */
+    const { resource: createdItem } = await this.container.items.create(this.newItem);
+    
+    console.log(`\r\nCreated new item: ${createdItem.id} - ${createdItem.location}\r\n`);
+    // </CreateItem>
   }
 
-  onSelect(hero: Hero) {
-    this.addingHero = false;
-    this.selectedHero = hero;
+  async update() {
+    // <UpdateItem>
+    /** Update item
+     * Pull the id and partition key value from the newly created item.
+     * Update the isComplete field to true.
+     */
+    const querySpec = {
+      query: `SELECT * from c WHERE c.id = '${this.newItem.id}'`
+    };
+
+    // read all items in the Items container
+    const { resources: ItemsToUpdate } = await this.container.items
+    .query(querySpec)
+    .fetchAll();
+    const ItemToUpdate = ItemsToUpdate[0]
+
+    console.log(`item: ${ItemToUpdate.id} - ${ItemToUpdate.location}`); 
+    console.log(`videoId ${ItemToUpdate.videoId}\r\n`);
+
+    const { id, location } = ItemToUpdate;
+
+    ItemToUpdate.videoId = "2";
+
+    const { resource: updatedItem } = await this.container
+    .item(id, location)
+    .replace(ItemToUpdate);
+
+    console.log(`Updated item: ${updatedItem.id} - ${updatedItem.location}`); 
+    console.log(`Updated videoId to ${updatedItem.videoId}\r\n`);
+    // </UpdateItem>
   }
 
-  save() {
-    if (this.addingHero) {
-      this.heroService.addHero(this.selectedHero).subscribe(hero => {
-        this.addingHero = false;
-        this.selectedHero = null;
-        this.heroes.push(hero);
-      });
-    } else {
-      this.heroService.updateHero(this.selectedHero).subscribe(hero => {
-        this.addingHero = false;
-        this.selectedHero = null;
-      });
-    }
+  async delete() {
+    // <DeleteItem>    
+    /**
+     * Delete item
+     * Pass the id and partition key value to delete the item
+    */
+    const { resource: result } = await this.container.item(this.newItem.id, this.newItem.location).delete();
+    console.log(`Deleted item with id: ${this.newItem.id}`);
+    // </DeleteItem> 
   }
-
 }

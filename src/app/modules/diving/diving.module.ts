@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DiveComponent } from './components/dive/dive.component';
-import { HeroService } from './components/dive/hero.service';
 
 @NgModule({
   imports: [
@@ -11,7 +10,7 @@ import { HeroService } from './components/dive/hero.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [HeroService],
+  providers: [],
   declarations: [DiveComponent]
 })
 export class DivingModule { }
