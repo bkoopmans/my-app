@@ -1,0 +1,11 @@
+.decoder-component {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    video {
+        margin: 24px;
+    }
+}

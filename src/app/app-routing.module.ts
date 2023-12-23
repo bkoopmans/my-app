@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewComponent } from './modules/resume/components/view/view.component';
 import { DiveComponent } from './modules/diving/components/dive/dive.component';
 import { IfHomeComponent } from './modules/if-adventure/components/if-home/if-home.component';
+import { DecoderComponent } from './modules/decoder/components/decoder/decoder.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,9 @@ const routes: Routes = [
   },
   {
     path:'ifAdventure', component: IfHomeComponent
+  },
+  {
+    path:'d3C0d3R', component: DecoderComponent
   }
 ];
 
