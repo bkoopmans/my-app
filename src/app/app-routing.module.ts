@@ -17,6 +17,9 @@ const routes: Routes = [
   },
   {
     path:'d3C0d3R', component: DecoderComponent
+  },
+  {
+    path:'**', redirectTo: ''
   }
 ];
 

@@ -2,9 +2,9 @@
   <div class="app-header">
     <div class="container">
         <div class="name">
-          <span>Brandon Koopmans</span>
+          <span>Welcome, <span *ngIf="urlContainsDecode()">EXIT escapee</span></span>
         </div>
-        <div class="links">
+        <div class="links" [hidden]="urlContainsDecode()">
           <a href="/"><span>Home</span></a>
           <a href="/diving"><span>Diving</span></a>
           <!-- <a href="/ifAdventure"><span>IF Adventure</span></a> -->
@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="app-footer">
-    <div class="links">
+    <div class="links" [hidden]="urlContainsDecode()">
       <a href="https://www.github.com/bkoopmans" target="_blank">GitHub</a>
       <a href="https://www.linkedin.com/in/brandon-koopmans-b8334864/" target="_blank">LinkedIn</a>
       <a href="mailto:blkooper@hotmail.com" target="_blank">Email</a>

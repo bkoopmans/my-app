@@ -5,7 +5,8 @@
     justify-content: center;
     align-items: center;
 
-    video {
-        margin: 24px;
-    }
+    img {
+        max-width: 100%;
+        height: auto; /* maintains the aspect ratio of the image */
+      }
 }

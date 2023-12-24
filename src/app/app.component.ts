@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'portfolio';
+  title = 'My App';
 
   constructor(private router: Router) {
     let path = localStorage.getItem('path');
@@ -15,5 +15,9 @@ export class AppComponent {
       localStorage.removeItem('path');
       this.router.navigate([path]);
     }
+  }
+
+  urlContainsDecode(): boolean {
+    return this.router.url.includes('d3C0d3R');
   }
 }

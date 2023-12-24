@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 declare var require: any
-const CosmosClient = require("@azure/cosmos").CosmosClient;
+//const CosmosClient = require("@azure/cosmos").CosmosClient;
 
 @Component({
   selector: 'app-dive',
@@ -30,15 +30,15 @@ export class DiveComponent implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    const endpoint = this.config.endpoint;
-    const key = this.config.key;
-    this.client = new CosmosClient({endpoint, key });
+    // const endpoint = this.config.endpoint;
+    // const key = this.config.key;
+    // this.client = new CosmosClient({endpoint, key });
 
-    this.database = this.client.database(this.config.databaseId);
-    this.container = this.database.container(this.config.containerId);
+    // this.database = this.client.database(this.config.databaseId);
+    // this.container = this.database.container(this.config.containerId);
 
-    // Make sure Tasks database is already setup. If not, create it.
-    await this.createDB(this.client, this.config.databaseId, this.config.containerId);
+    // // Make sure Tasks database is already setup. If not, create it.
+    // await this.createDB(this.client, this.config.databaseId, this.config.containerId);
   }
 
   async createDB(client: any, databaseId: any, containerId: any) {

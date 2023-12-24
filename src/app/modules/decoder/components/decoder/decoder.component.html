@@ -1,5 +1,8 @@
 <div class="decoder-component">
   <div>Enter in the correct code</div>
-  <input /> 
-  <button>Submit</button>
+  <input type="text" [(ngModel)]="userInput" (keyup.enter)="checkInput()" placeholder="Enter your code">
+  <button (click)="checkInput()">Decode</button>
+  <div *ngIf="imagePath !== null">
+    <img [src]="imagePath" alt="Result Image">
+  </div>
 </div>
