@@ -17,8 +17,8 @@ export class DecoderComponent implements OnInit {
   }
 
   checkInput() {
-    if (this.userInput && this.userInput.toLowerCase() === 'time') {
-      this.imagePath = 'assets/images/amc_prize.png';
+    if (this.userInput && this.userInput.toLowerCase() === 'c25ae4a 3') {
+      this.imagePath = 'assets/images/escape_room_success.png';
     } else if (this.userInput && this.userInput.toLowerCase() === 'abcd1234') {
       this.imagePath = 'assets/images/Success.png';
     } else {
